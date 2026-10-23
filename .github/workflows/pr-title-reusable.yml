@@ -1,6 +1,6 @@
-# Valida o título do PR no padrão Conventional Commits do CONTRIBUTING.md.
-# Com squash and merge, o título vira o commit final na main.
-# Uso em cada repositório: ver .github/workflows/pr-title.yml.
+# Validates the PR title against the Conventional Commits rules in CONTRIBUTING.md.
+# With squash and merge, the title becomes the final commit on main.
+# Usage in each repository: see .github/workflows/pr-title.yml.
 name: PR title (reusable)
 
 on:
@@ -20,15 +20,15 @@ jobs:
           types='feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert'
           pattern="^(${types})(\([a-z0-9-]+\))?!?: [^A-Z].*[^.]$"
           errors=()
-          [[ "$TITLE" =~ $pattern ]] || errors+=("O título não segue o formato <tipo>(<escopo opcional>): <descrição>.")
-          (( ${#TITLE} <= 72 )) || errors+=("O título tem ${#TITLE} caracteres; o máximo é 72.")
+          [[ "$TITLE" =~ $pattern ]] || errors+=("Title does not match <type>(<optional scope>): <description>.")
+          (( ${#TITLE} <= 72 )) || errors+=("Title has ${#TITLE} characters; the maximum is 72.")
           if (( ${#errors[@]} )); then
-            echo "Título: $TITLE"
-            for e in "${errors[@]}"; do echo "::error title=Título do PR fora do padrão::$e"; done
-            echo "Tipos aceitos: ${types//|/, }"
-            echo "Descrição em inglês, no imperativo, começando com minúscula e sem ponto final."
-            echo "Exemplo: feat(gateway): verify X-GHL-Signature on raw body"
-            echo "Guia: https://github.com/jusflow-ghl/.github/blob/main/CONTRIBUTING.md#commits"
+            echo "Title: $TITLE"
+            for e in "${errors[@]}"; do echo "::error title=Invalid PR title::$e"; done
+            echo "Allowed types: ${types//|/, }"
+            echo "Description in English, imperative mood, lowercase first letter, no trailing period."
+            echo "Example: feat(gateway): verify X-GHL-Signature on raw body"
+            echo "Guide: https://github.com/jusflow-ghl/.github/blob/main/CONTRIBUTING.md#commits"
             exit 1
           fi
-          echo "Título OK: $TITLE"
+          echo "Title OK: $TITLE"
