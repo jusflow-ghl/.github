@@ -1,0 +1,34 @@
+# Valida o título do PR no padrão Conventional Commits do CONTRIBUTING.md.
+# Com squash and merge, o título vira o commit final na main.
+# Uso em cada repositório: ver .github/workflows/pr-title.yml.
+name: PR title (reusable)
+
+on:
+  workflow_call:
+
+permissions: {}
+
+jobs:
+  conventional-commit:
+    name: Conventional Commits
+    runs-on: ubuntu-latest
+    steps:
+      - name: Validate PR title
+        env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          types='feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert'
+          pattern="^(${types})(\([a-z0-9-]+\))?!?: [^A-Z].*[^.]$"
+          errors=()
+          [[ "$TITLE" =~ $pattern ]] || errors+=("O título não segue o formato <tipo>(<escopo opcional>): <descrição>.")
+          (( ${#TITLE} <= 72 )) || errors+=("O título tem ${#TITLE} caracteres; o máximo é 72.")
+          if (( ${#errors[@]} )); then
+            echo "Título: $TITLE"
+            for e in "${errors[@]}"; do echo "::error title=Título do PR fora do padrão::$e"; done
+            echo "Tipos aceitos: ${types//|/, }"
+            echo "Descrição em inglês, no imperativo, começando com minúscula e sem ponto final."
+            echo "Exemplo: feat(gateway): verify X-GHL-Signature on raw body"
+            echo "Guia: https://github.com/jusflow-ghl/.github/blob/main/CONTRIBUTING.md#commits"
+            exit 1
+          fi
+          echo "Título OK: $TITLE"
