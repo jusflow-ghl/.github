@@ -100,7 +100,7 @@ refactor(worker): extract echo filter into its own module
 - **Título** no padrão Conventional Commits, porque vira o commit final ao juntar com squash.
 - **Descrição em português:** o que muda, por que muda e como testar.
 - **CI passando** antes de juntar.
-- **Revisão:** quando migrarmos para o plano Team, cada PR precisa de 1 aprovação do outro. Até lá, peça revisão nos PRs que mexem em ingestão, OAuth, tokens, cobrança ou infraestrutura.
+- **Revisão:** todo PR precisa da revisão do outro antes de juntar. No plano gratuito do GitHub a aprovação não é forçada, então ela depende de nós.
 - **Junte com squash and merge**, para a `main` ter um commit por PR.
 
 ## Versões e deploy
