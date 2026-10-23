@@ -97,7 +97,7 @@ refactor(worker): extract echo filter into its own module
 ## Pull requests
 
 - **Pequenos:** de preferência menos de 400 linhas alteradas.
-- **Título** no padrão Conventional Commits, porque vira o commit final ao juntar com squash.
+- **Título** no padrão Conventional Commits, porque vira o commit final ao juntar com squash. O CI valida o título em todo PR (workflow `PR title`).
 - **Descrição em português:** o que muda, por que muda e como testar.
 - **CI passando** antes de juntar.
 - **Revisão:** todo PR precisa da revisão do outro antes de juntar. No plano gratuito do GitHub a aprovação não é forçada, então ela depende de nós.
